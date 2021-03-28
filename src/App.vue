@@ -1,15 +1,11 @@
 <template>
-  <AllDepartmensChart />
+  <router-view></router-view>
 </template>
 
 <script>
-import AllDepartmensChart from './components/AllDepartmensChart.vue';
 
 export default {
   name: 'App',
-  components: {
-    AllDepartmensChart,
-  },
 };
 </script>
 
@@ -18,8 +14,13 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.highcharts-credits {
+  display: none;
 }
 </style>
