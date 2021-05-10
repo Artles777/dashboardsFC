@@ -137,9 +137,9 @@ export default {
     },
   },
   async created() {
-    this.getCategories();
-    this.getCompleted();
-    this.getWorking();
+    await this.getCategories();
+    await this.getCompleted();
+    await this.getWorking();
   },
 };
 </script>

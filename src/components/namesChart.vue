@@ -107,16 +107,16 @@ export default {
       this.working = result;
     },
   },
-  created() {
-    this.getCategories(this.col);
-    this.getCompleted();
-    this.getWorking();
+  async created() {
+    await this.getCategories(this.col);
+    await this.getCompleted();
+    await this.getWorking();
   },
   watch: {
-    col() {
-      this.getCategories(this.col);
-      this.getCompleted();
-      this.getWorking();
+    async col() {
+      await this.getCategories(this.col);
+      await this.getCompleted();
+      await this.getWorking();
     },
   },
 };

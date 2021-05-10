@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { PORT } from './constants';
 
 export default () => axios.create({
-  baseURL: 'http://localhost:7500',
+  baseURL: `http://localhost:${PORT}/api`,
 });
-console.log(window.location.origin);

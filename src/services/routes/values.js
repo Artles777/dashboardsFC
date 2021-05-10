@@ -3,7 +3,7 @@ const { newJsonExcel } = require('../processedSheet');
 
 const router = Router();
 
-router.get('/completed', (req, res) => {
+router.get('/api/completed', (req, res) => {
   const completed = Object.values(newJsonExcel)
     .map((n) => Object.values(n))
     .map((dep) => dep.map((value) => value.completed))
@@ -11,7 +11,7 @@ router.get('/completed', (req, res) => {
   res.send(JSON.stringify(completed));
 });
 
-router.get('/completed/:id', (req, res) => {
+router.get('/api/completed/:id', (req, res) => {
   const { id } = req.params;
   const completed = Object.values(newJsonExcel)
     .map((n) => Object.values(n))
@@ -20,7 +20,7 @@ router.get('/completed/:id', (req, res) => {
   res.send(JSON.stringify(completed[id]));
 });
 
-router.get('/working', (req, res) => {
+router.get('/api/working', (req, res) => {
   const completed = Object.values(newJsonExcel)
     .map((n) => Object.values(n))
     .map((dep) => dep.map((value) => value.working))
@@ -28,7 +28,7 @@ router.get('/working', (req, res) => {
   res.send(JSON.stringify(completed));
 });
 
-router.get('/working/:id', (req, res) => {
+router.get('/api/working/:id', (req, res) => {
   const { id } = req.params;
   const completed = Object.values(newJsonExcel)
     .map((n) => Object.values(n))

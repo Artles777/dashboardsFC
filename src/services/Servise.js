@@ -24,4 +24,28 @@ export default {
   fetchNamesWorking() {
     return api().get('/name/working');
   },
+
+  fetchStages() {
+    return api().get('/departments/stages');
+  },
+
+  fetchStagesCompleted() {
+    return api().get('/stages/completed');
+  },
+
+  fetchStagesWorking() {
+    return api().get('/stages/working');
+  },
+
+  fetchDocuments() {
+    return api().get('/departments/documents');
+  },
+
+  fetchDocumentsCompleted() {
+    return api().get('/documents/completed');
+  },
+
+  fetchDocumentsWorking() {
+    return api().get('/documents/working');
+  },
 };

@@ -16,8 +16,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   margin: 0 auto;
   width: 90%;
-  display: flex;
-  justify-content: space-between;
 }
 
 .highcharts-credits {
