@@ -1,9 +1,9 @@
-const { Router } = require('express');
-const { newJsonExcel } = require('../processedSheet');
+const { Router } = require("express");
+const { newJsonExcel } = require("../processedSheet");
 
 const router = Router();
 
-router.get('/api/documents/completed', (req, res) => {
+router.get("/api/documents/completed", (req, res) => {
   let dep;
   let document;
   const documents = {};
@@ -11,8 +11,8 @@ router.get('/api/documents/completed', (req, res) => {
   Object.entries(newJsonExcel).forEach(([department, value]) => {
     Object.values(value).forEach((name) => {
       Object.entries(name.documents).forEach(([doc]) => {
-        if (dep !== department) documents[dep = department] = {};
-        if (doc !== document) documents[department][document = doc] = 0;
+        if (dep !== department) documents[(dep = department)] = {};
+        if (doc !== document) documents[department][(document = doc)] = 0;
       });
     });
   });
@@ -30,7 +30,7 @@ router.get('/api/documents/completed', (req, res) => {
   res.json(documents);
 });
 
-router.get('/api/documents/working', (req, res) => {
+router.get("/api/documents/working", (req, res) => {
   let dep;
   let document;
   const documents = {};
@@ -38,8 +38,8 @@ router.get('/api/documents/working', (req, res) => {
   Object.entries(newJsonExcel).forEach(([department, value]) => {
     Object.values(value).forEach((name) => {
       Object.entries(name.documents).forEach(([doc]) => {
-        if (dep !== department) documents[dep = department] = {};
-        if (doc !== document) documents[department][document = doc] = 0;
+        if (dep !== department) documents[(dep = department)] = {};
+        if (doc !== document) documents[department][(document = doc)] = 0;
       });
     });
   });

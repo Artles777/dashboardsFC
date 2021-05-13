@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import VueHighcharts from 'vue3-highcharts';
-import { ref } from 'vue';
-import Servise from '../services/Servise';
+import VueHighcharts from "vue3-highcharts";
+import { ref } from "vue";
+import Servise from "../services/Servise";
 
 export default {
-  name: 'Names-chart',
+  name: "Names-chart",
   props: {
     col: {
       type: String,
@@ -36,11 +36,11 @@ export default {
     chartOptions() {
       return {
         chart: {
-          type: 'bar',
+          type: "bar",
           width: 600,
         },
         title: {
-          text: 'Детализация по сотрудникам',
+          text: "Детализация по сотрудникам",
         },
         accessibility: {
           announceNewData: {
@@ -52,38 +52,46 @@ export default {
         },
         yAxis: {
           title: {
-            text: '<span style="font-size: 0.8rem">Количество документов</span>',
+            text: "<span style='font-size: 0.8rem'>Количество документов</span>",
           },
         },
         legend: {
           enabled: false,
         },
         tooltip: {
-          className: 'tooltip',
-          split: true,
+          enabled: false,
         },
         series: [
           {
-            name: 'working',
+            name: "working",
             data: this.working,
-            cursor: 'pointer',
-            color: 'red',
-            stack: 0,
+            cursor: "pointer",
+            color: "#FF0000",
+            states: {
+              hover: {
+                brightness: 0.3,
+              },
+            },
           },
           {
-            name: 'completed',
+            name: "completed",
             data: this.completed,
-            cursor: 'pointer',
-            stack: 0,
+            cursor: "pointer",
           },
         ],
         plotOptions: {
           series: {
-            stacking: 'normal',
+            states: {
+              inactive: {
+                enabled: false,
+              },
+            },
+            stacking: "normal",
             dataLabels: {
               enabled: true,
-              format: '{point.y}',
+              format: "{point.value}",
             },
+            pointWidth: 16,
           },
         },
       };
@@ -97,13 +105,46 @@ export default {
 
     async getCompleted() {
       const res = await Servise.fetchNamesCompleted();
-      const result = await this.categories.map((name) => res.data[name]);
+      const result = await this.categories.map((name) => {
+        // const arrayWorking = this.working.map((obj) => obj.y);
+        // let data;
+        // arrayWorking[i] > res.data[name] ? (data = arrayWorking[i]) : (data = res.data[name]);
+        // console.log(data, res.data[name]);
+        return {
+          y: res.data[name],
+          value: res.data[name],
+        };
+      });
       this.completed = result;
     },
 
     async getWorking() {
       const res = await Servise.fetchNamesWorking();
-      const result = await this.categories.map((name) => res.data[name]);
+      const result = await this.categories.map((name) => {
+        const arrayCompleted = this.completed.map((obj) => obj.value);
+        // let data;
+        // arrayCompleted[i] > res.data[name] ? (data = arrayCompleted[i]) : (data = res.data[name]);
+        // console.log(Math.max(...arrayCompleted));
+        console.log(arrayCompleted.reduce((acc, n) => (acc + n) * 0.2));
+        this.completed = this.completed.map((obj) => ({
+          y: res.data[name] - obj.y > 0 ? res.data[name] - obj.y : obj.y,
+          value: obj.value,
+        }));
+        return {
+          y:
+            Math.max(...arrayCompleted) > res.data[name]
+              ? res.data[name] + arrayCompleted.reduce((acc, n) => (acc + n) * 0.2)
+              : res.data[name],
+          value: res.data[name],
+          dataLabels: {
+            // x: 30,
+            crop: false,
+            overflow: "allow",
+            // align: 'right',
+            // color: '#000',
+          },
+        };
+      });
       this.working = result;
     },
   },
@@ -122,6 +163,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import VueHighcharts from 'vue3-highcharts';
-import { ref } from 'vue';
-import Servise from '../services/Servise';
+import VueHighcharts from "vue3-highcharts";
+import { ref } from "vue";
+import Servise from "../services/Servise";
 
 export default {
-  name: 'Departments-chart',
+  name: "Departments-chart",
   data() {
     return {
       categories: ref([]),
@@ -31,11 +31,12 @@ export default {
     chartOptions() {
       return {
         chart: {
-          type: 'column',
+          type: "column",
           width: 600,
         },
         title: {
-          text: 'Информация по отделам',
+          text: "Информация по отделам",
+          margin: 40,
         },
         accessibility: {
           enabled: true,
@@ -46,40 +47,45 @@ export default {
         },
         yAxis: {
           title: {
-            text: '<span style="font-size: 0.8rem">Количество документов</span>',
+            text: "<span style='font-size: 0.8rem'>Количество документов</span>",
           },
         },
         legend: {
           enabled: false,
         },
         tooltip: {
-          className: 'tooltip',
-          split: true,
+          enabled: false,
         },
         series: [
           {
-            name: 'working',
+            name: "working",
             data: this.working,
-            color: 'red',
-            cursor: 'pointer',
-            stack: 0,
+            cursor: "pointer",
+            color: "#FF0000",
+            states: {
+              hover: {
+                brightness: 0.3,
+              },
+            },
           },
           {
-            name: 'completed',
+            name: "completed",
             data: this.completed,
-            cursor: 'pointer',
-            stack: 0,
+            cursor: "pointer",
           },
         ],
         plotOptions: {
-          column: {
-            stacking: 'percent',
-          },
           series: {
+            stacking: "percent",
+            states: {
+              inactive: {
+                enabled: false,
+              },
+            },
             pointWidth: 40,
             dataLabels: {
               enabled: true,
-              format: '{point.y}',
+              format: "{point.y}",
             },
           },
         },
@@ -106,34 +112,40 @@ export default {
       const data = await res.data.map((y, i) => ({
         y,
         className: `col-${i + 1}`,
+        dataLabels: {
+          y: -20,
+          crop: false,
+          overflow: "allow",
+          verticalAlign: "top",
+          color: "#000",
+        },
       }));
       this.working = data;
     },
 
     columnSelection(e) {
       if (!e.point) return;
-      this.cols = this.$el.querySelectorAll('.highcharts-point');
-      if (e.target.classList.contains('fill-point')) {
-        this.cols.forEach((el) => (el.classList.contains(e.point.className)
-          ? el.classList.remove('fill-point')
-          : el.classList.remove('opacity-points')));
-      } else if (!e.target.classList.contains('opacity-points')) {
-        this.cols.forEach((el) => (el.classList.contains(e.point.className)
-          ? el.classList.add('fill-point')
-          : el.classList.add('opacity-points')));
+      this.cols = this.$el.querySelectorAll(".highcharts-point");
+      if (e.target.classList.contains("fill-point")) {
+        this.cols.forEach((el) =>
+          el.classList.contains(e.point.className)
+            ? el.classList.remove("fill-point")
+            : el.classList.remove("opacity-points")
+        );
+      } else if (!e.target.classList.contains("opacity-points")) {
+        this.cols.forEach((el) =>
+          el.classList.contains(e.point.className)
+            ? el.classList.add("fill-point")
+            : el.classList.add("opacity-points")
+        );
       } else {
-        this.cols.forEach((el) => (el.classList.contains(e.point.className)
-          ? (
-            el.classList.remove('opacity-points'),
-            el.classList.add('fill-point')
-          )
-          : (
-            el.classList.remove('fill-point'),
-            el.classList.add('opacity-points')
-          )
-        ));
+        this.cols.forEach((el) =>
+          el.classList.contains(e.point.className)
+            ? (el.classList.remove("opacity-points"), el.classList.add("fill-point"))
+            : (el.classList.remove("fill-point"), el.classList.add("opacity-points"))
+        );
       }
-      this.$emit('changeDepartment', e.point.category);
+      this.$emit("changeDepartment", e.point.category);
     },
   },
   async created() {
@@ -145,14 +157,11 @@ export default {
 </script>
 
 <style>
-  .fill-point {
-    stroke: azure;
-    stroke-width: 2;
-  }
-  .opacity-points {
-    fill-opacity: 0.1;
-  }
-  .tooltip {
-    display: none;
-  }
+.fill-point {
+  stroke: azure;
+  stroke-width: 2;
+}
+.opacity-points {
+  fill-opacity: 0.1;
+}
 </style>

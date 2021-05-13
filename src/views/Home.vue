@@ -1,8 +1,6 @@
 <template>
   <div class="wrapper">
-    <DepartmentsChart
-      @changeDepartment="selectionCol"
-    />
+    <DepartmentsChart @changeDepartment="selectionCol" />
     <NamesChart :col="departmentCol" />
   </div>
   <div class="wrapper">
@@ -12,17 +10,17 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import DepartmentsChart from '../components/departmentsChart.vue';
-import NamesChart from '../components/namesChart.vue';
-import StagesChart from '../components/stagesChart.vue';
-import DocumentsChart from '../components/documentsChart.vue';
+import { ref } from "vue";
+import DepartmentsChart from "../components/departmentsChart.vue";
+import NamesChart from "../components/namesChart.vue";
+import StagesChart from "../components/stagesChart.vue";
+import DocumentsChart from "../components/documentsChart.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
-      departmentCol: ref('3 отдел'),
+      departmentCol: ref("3 отдел"),
     };
   },
   components: {
@@ -40,8 +38,8 @@ export default {
 </script>
 
 <style scoped>
-  .wrapper {
-    display: flex;
-    padding-bottom: 40px;
-  }
+.wrapper {
+  display: flex;
+  padding-bottom: 40px;
+}
 </style>

@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import VueHighcharts from 'vue3-highcharts';
-import { ref } from 'vue';
-import Servise from '../services/Servise';
+import VueHighcharts from "vue3-highcharts";
+import { ref } from "vue";
+import Servise from "../services/Servise";
 
 export default {
-  name: 'Stages-chart',
+  name: "Stages-chart",
   props: {
     col: {
       type: String,
@@ -38,54 +38,56 @@ export default {
     chartOptions() {
       return {
         chart: {
-          type: 'bar',
+          type: "bar",
           width: 600,
           height: 800 + this.heightToCount,
         },
         title: {
-          text: 'Детализация по этапам',
-        },
-        accessibility: {
-          announceNewData: {
-            enabled: true,
-          },
+          text: "Детализация по документам",
         },
         xAxis: {
           categories: this.categories,
         },
         yAxis: {
           title: {
-            text: '<span style="font-size: 0.8rem">Количество документов</span>',
+            text: "<span style='font-size: 0.8rem'>Количество документов</span>",
           },
         },
         legend: {
           enabled: false,
         },
         tooltip: {
-          className: 'tooltip',
-          split: true,
+          enabled: false,
         },
         series: [
           {
-            name: 'working',
+            name: "working",
             data: this.working,
-            cursor: 'pointer',
-            color: 'red',
-            stack: 0,
+            cursor: "pointer",
+            color: "#FF0000",
+            states: {
+              hover: {
+                brightness: 0.3,
+              },
+            },
           },
           {
-            name: 'completed',
+            name: "completed",
             data: this.completed,
-            cursor: 'pointer',
-            stack: 0,
+            cursor: "pointer",
           },
         ],
         plotOptions: {
           series: {
-            stacking: 'normal',
+            states: {
+              inactive: {
+                enabled: false,
+              },
+            },
+            stacking: "normal",
             dataLabels: {
               enabled: true,
-              format: '{point.y}',
+              format: "{point.y}",
             },
           },
         },
@@ -133,5 +135,7 @@ export default {
 </script>
 
 <style scoped>
-
+.highcharts-bar-series {
+  opacity: 1;
+}
 </style>
